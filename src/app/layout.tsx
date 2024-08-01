@@ -12,6 +12,7 @@ const fontSans = FontSans({
 
 export function generateMetadata(): Metadata {
   const appName = process.env.NEXT_PUBLIC_APP_NAME as string
+  const appLocale = process.env.NEXT_PUBLIC_APP_LOCALE
   const description = `${appName} es una boutique de moda en línea de Perú para mujer. Encuentra calzado, ropa y accesorios de marcas exclusivas y modelos de edición limitada.`
 
   return {
@@ -27,8 +28,10 @@ export function generateMetadata(): Metadata {
         default: appName,
       },
       description,
-      type: 'website',
       url: '/',
+      siteName: appName,
+      locale: appLocale,
+      type: 'website',
     },
     robots: {
       index: true,
