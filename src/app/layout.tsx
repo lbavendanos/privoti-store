@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
 import { Separator } from '@/components/ui/separator'
+import { Header } from './_components/header/header'
 import { Footer } from './_components/footer/footer'
 import { cn, url } from '@/lib/utils'
 
@@ -64,6 +65,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
+        <Header />
         <main className="grow">{children}</main>
         <div className="container">
           <Separator />
