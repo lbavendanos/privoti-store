@@ -18,7 +18,7 @@ export function Search() {
           className="h-fit w-fit p-0"
           aria-label="Abrir búsqueda"
         >
-          <SearchIcon className="h-5 w-5" aria-hidden="true" />
+          <SearchIcon className="h-6 w-6" aria-hidden="true" />
         </Button>
       </SheetTrigger>
       <SheetContent side="top" hideCloseButton={true} className="px-0">

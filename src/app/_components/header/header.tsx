@@ -1,6 +1,7 @@
 import { Menu } from './menu/menu'
 import { Logo } from './logo/logo'
 import { Search } from './search/search'
+import { Cart } from './cart/cart'
 
 export function Header() {
   return (
@@ -18,7 +19,7 @@ export function Header() {
                   <Search />
                 </div>
                 {/* <Account /> */}
-                {/* <Cart /> */}
+                <Cart />
               </div>
             </div>
           </div>
