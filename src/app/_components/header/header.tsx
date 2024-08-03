@@ -2,6 +2,7 @@ import { Menu } from './menu/menu'
 import { Logo } from './logo/logo'
 import { Search } from './search/search'
 import { Cart } from './cart/cart'
+import { Account } from './account/account'
 
 export function Header() {
   return (
@@ -18,7 +19,7 @@ export function Header() {
                 <div className="mr-auto flex items-center lg:mr-0">
                   <Search />
                 </div>
-                {/* <Account /> */}
+                <Account />
                 <Cart />
               </div>
             </div>
