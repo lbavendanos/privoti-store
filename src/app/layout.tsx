@@ -66,7 +66,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main className="grow">{children}</main>
+        {children}
         <div className="container">
           <Separator />
         </div>

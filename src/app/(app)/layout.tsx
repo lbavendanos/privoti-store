@@ -3,5 +3,5 @@ export default function AppLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <>{children}</>
+  return <main className="grow">{children}</main>
 }
