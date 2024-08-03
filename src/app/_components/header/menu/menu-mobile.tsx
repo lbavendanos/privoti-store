@@ -1,5 +1,6 @@
 'use client'
 
+import { MENU_ITEMS } from './menu-config'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,9 +9,9 @@ import {
   SheetHeader,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { MenuList } from './menu-list'
 import { Menu } from 'lucide-react'
 import { Logo } from '../logo/logo'
+import Link from 'next/link'
 
 export function MenuMobile() {
   const [open, setOpen] = useState(false)
@@ -31,11 +32,18 @@ export function MenuMobile() {
         <SheetHeader className="text-center">
           <Logo onClick={() => setOpen(false)} />
         </SheetHeader>
-        <MenuList
-          orientation="vertical"
-          className="mt-4"
-          onSelection={() => setOpen(false)}
-        />
+        <nav className="mt-4 flex flex-col">
+          {MENU_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="px-0 py-2 text-base no-underline"
+              onClick={() => setOpen(false)}
+            >
+              {item.title}
+            </Link>
+          ))}
+        </nav>
       </SheetContent>
     </Sheet>
   )
