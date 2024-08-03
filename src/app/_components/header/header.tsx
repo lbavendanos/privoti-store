@@ -1,5 +1,6 @@
 import { Menu } from './menu/menu'
 import { Logo } from './logo/logo'
+import { Search } from './search/search'
 
 export function Header() {
   return (
@@ -14,7 +15,7 @@ export function Header() {
               <Menu />
               <div className="flex w-full flex-row items-center justify-end gap-x-2 lg:gap-x-4">
                 <div className="mr-auto flex items-center lg:mr-0">
-                  {/* <Search /> */}
+                  <Search />
                 </div>
                 {/* <Account /> */}
                 {/* <Cart /> */}
