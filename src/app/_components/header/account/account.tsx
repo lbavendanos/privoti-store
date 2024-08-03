@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { User } from 'lucide-react'
+import { AccountUnauthenticated } from './account-unauthenticated'
 
 export function Account() {
   const [open, setOpen] = useState(false)
@@ -20,7 +21,9 @@ export function Account() {
           <User className="h-6 w-6" aria-hidden="true" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left"></SheetContent>
+      <SheetContent side="left">
+        <AccountUnauthenticated />
+      </SheetContent>
     </Sheet>
   )
 }
