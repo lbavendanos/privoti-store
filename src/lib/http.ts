@@ -157,7 +157,7 @@ class Fetch {
   }
 }
 
-interface ApiError {
+export interface ApiError {
   errors?: Record<string, string[]>
   error?: string
 }
@@ -165,7 +165,7 @@ interface ApiError {
 class Api extends Fetch {
   constructor(config: FetchRequestConfig = {}) {
     super({
-      baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+      baseURL: process.env.NEXT_PUBLIC_API_URL,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

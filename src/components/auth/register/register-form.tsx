@@ -5,8 +5,8 @@ import { useCallback, useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-// import { useAuthNew } from '@/lib/hooks/auth'
 import { useToast } from '@/components/ui/use-toast'
+import { useAuth } from '@/lib/auth'
 import { NAME_REGEX } from '@/lib/regex'
 import { Button } from '@/components/ui/button'
 import {
@@ -71,7 +71,7 @@ export interface RegisterFormProps
   extends React.ComponentPropsWithoutRef<'form'> {}
 
 export function RegisterForm({ ...props }: RegisterFormProps) {
-  // const { register } = useAuthNew()
+  const { register } = useAuth()
   const { toast } = useToast()
 
   const router = useRouter()
@@ -93,31 +93,29 @@ export function RegisterForm({ ...props }: RegisterFormProps) {
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        // const { error } = await register(data)
-        //
-        // if (error) {
-        //   toast({
-        //     variant: 'destructive',
-        //     description: error,
-        //   })
-        //
-        //   return
-        // }
-        //
-        // toast({
-        //   title: 'Gracias por registrarte.',
-        //   description:
-        //     'Verifique su correo electrónico para continuar con el proceso de inicio de sesión.',
-        // })
-        //
-        // if (pathname.startsWith('/register')) {
-        //   router.push('/')
-        // }
+        const { error } = await register(data)
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
+
+        toast({
+          title: 'Gracias por registrarte.',
+          description:
+            'Verifique su correo electrónico para continuar con el proceso de inicio de sesión.',
+        })
+
+        if (pathname.startsWith('/register')) {
+          router.push('/')
+        }
       })
     },
-    [
-      // router, pathname, register, toast
-    ],
+    [router, pathname, register, toast],
   )
 
   return (
