@@ -4,9 +4,13 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Input } from '@/components/ui/input'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 export function Search() {
   return (
@@ -22,6 +26,14 @@ export function Search() {
         </Button>
       </SheetTrigger>
       <SheetContent side="top" hideCloseButton={true} className="px-0">
+        <SheetHeader>
+          <VisuallyHidden>
+            <SheetTitle>Búsqueda</SheetTitle>
+            <SheetDescription>
+              Ingresa el término de búsqueda que deseas encontrar.
+            </SheetDescription>
+          </VisuallyHidden>
+        </SheetHeader>
         <div className="container">
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 lg:col-span-6 lg:col-start-4 xl:col-span-4 xl:col-start-5">

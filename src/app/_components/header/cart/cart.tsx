@@ -4,6 +4,7 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { ShoppingBag } from 'lucide-react'
@@ -23,17 +24,19 @@ export function Cart() {
       </SheetTrigger>
       <SheetContent side="right">
         <SheetHeader className="items-center justify-center">
-          <Button
-            variant="link"
-            className="w-fit text-base font-semibold uppercase"
-            asChild
-          >
-            <a href="#">Carrito de compras</a>
-          </Button>
+          <SheetTitle>
+            <Button
+              variant="link"
+              className="w-fit text-base font-semibold uppercase"
+              asChild
+            >
+              <a href="#">Carrito de compras</a>
+            </Button>
+          </SheetTitle>
+          <SheetDescription className="text-center">
+            ¡Tu carrito está vacío! vamos a arreglar eso
+          </SheetDescription>
         </SheetHeader>
-        <SheetDescription className="text-center">
-          ¡Tu carrito está vacío! vamos a arreglar eso
-        </SheetDescription>
       </SheetContent>
     </Sheet>
   )

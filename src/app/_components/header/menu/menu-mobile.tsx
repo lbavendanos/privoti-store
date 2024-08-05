@@ -1,19 +1,24 @@
 'use client'
 
-import { MENU_ITEMS } from './menu-config'
 import { useState } from 'react'
+import { MENU_ITEMS } from './menu-config'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Menu } from 'lucide-react'
 import { Logo } from '../logo/logo'
 import Link from 'next/link'
 
 export function MenuMobile() {
+  const appName = process.env.NEXT_PUBLIC_APP_NAME
+
   const [open, setOpen] = useState(false)
 
   return (
@@ -30,6 +35,12 @@ export function MenuMobile() {
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader className="text-center">
+          <VisuallyHidden>
+            <SheetTitle>{appName} menú</SheetTitle>
+            <SheetDescription>
+              Seleccione una opción para navegar en el sitio.
+            </SheetDescription>
+          </VisuallyHidden>
           <Logo onClick={() => setOpen(false)} />
         </SheetHeader>
         <nav className="mt-4 flex flex-col">
