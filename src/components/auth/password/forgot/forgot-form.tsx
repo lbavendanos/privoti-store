@@ -4,8 +4,8 @@ import { z } from 'zod'
 import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-// import { useAuthNew } from '@/lib/hooks/auth'
 import { useToast } from '@/components/ui/use-toast'
+import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -38,7 +38,7 @@ export interface ForgotFormProps
 }
 
 export function ForgotForm({ onSuccess, ...props }: ForgotFormProps) {
-  // const { sendResetEmail } = useAuthNew()
+  const { sendResetEmail } = useAuth()
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
@@ -53,31 +53,29 @@ export function ForgotForm({ onSuccess, ...props }: ForgotFormProps) {
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        // const { error } = await sendResetEmail(data)
-        //
-        // if (error) {
-        //   toast({
-        //     variant: 'destructive',
-        //     description: error,
-        //   })
-        //
-        //   return
-        // }
-        //
-        // toast({
-        //   title:
-        //     'Se envió un correo electrónico de restablecimiento de contraseña.',
-        //   description:
-        //     'Verifique su correo electrónico para continuar con el proceso de restablecimiento de contraseña.',
-        // })
-        //
-        // form.reset()
-        // onSuccess?.()
+        const { error } = await sendResetEmail(data)
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
+
+        toast({
+          title:
+            'Se envió un correo electrónico de restablecimiento de contraseña.',
+          description:
+            'Verifique su correo electrónico para continuar con el proceso de restablecimiento de contraseña.',
+        })
+
+        form.reset()
+        onSuccess?.()
       })
     },
-    [
-      // form, sendResetEmail, toast, onSuccess
-    ],
+    [form, sendResetEmail, toast, onSuccess],
   )
 
   return (

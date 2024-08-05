@@ -5,8 +5,8 @@ import { useCallback, useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-// import { useAuthNew } from '@/lib/hooks/auth'
 import { useToast } from '@/components/ui/use-toast'
+import { useAuth } from '@/lib/auth'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -48,7 +48,7 @@ export interface LoginFomProps extends React.ComponentPropsWithoutRef<'form'> {
 }
 
 export function LoginForm({ onForgotPasswordClick, ...props }: LoginFomProps) {
-  // const { login } = useAuthNew()
+  const { login } = useAuth()
   const { toast } = useToast()
 
   const router = useRouter()
@@ -68,29 +68,27 @@ export function LoginForm({ onForgotPasswordClick, ...props }: LoginFomProps) {
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        // const { error } = await login(data)
-        //
-        // if (error) {
-        //   toast({
-        //     variant: 'destructive',
-        //     description: error,
-        //   })
-        //
-        //   return
-        // }
-        //
-        // if (
-        //   pathname.startsWith('/login') ||
-        //   pathname.startsWith('/register') ||
-        //   pathname.startsWith('/password')
-        // ) {
-        //   router.push('/')
-        // }
+        const { error } = await login(data)
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
+
+        if (
+          pathname.startsWith('/login') ||
+          pathname.startsWith('/register') ||
+          pathname.startsWith('/password')
+        ) {
+          router.push('/')
+        }
       })
     },
-    [
-      // router, pathname, login, toast
-    ],
+    [router, pathname, login, toast],
   )
 
   return (

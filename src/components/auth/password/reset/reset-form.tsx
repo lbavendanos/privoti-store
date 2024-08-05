@@ -6,7 +6,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
-// import { useAuthNew } from '@/lib/hooks/auth'
+import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -55,7 +55,7 @@ export interface ResetFormProps
   extends React.ComponentPropsWithoutRef<'form'> {}
 
 export function ResetForm(props: ResetFormProps) {
-  // const { resetPassword } = useAuthNew()
+  const { resetPassword } = useAuth()
   const { toast } = useToast()
 
   const router = useRouter()
@@ -76,30 +76,28 @@ export function ResetForm(props: ResetFormProps) {
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        // const { error } = await resetPassword({
-        //   ...data,
-        //   token: params.token,
-        // })
-        //
-        // if (error) {
-        //   toast({
-        //     variant: 'destructive',
-        //     description: error,
-        //   })
-        //
-        //   return
-        // }
-        //
-        // toast({
-        //   description: 'Tu contraseña se ha restablecido correctamente.',
-        // })
-        //
-        // router.push('/')
+        const { error } = await resetPassword({
+          ...data,
+          token: params.token,
+        })
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
+
+        toast({
+          description: 'Tu contraseña se ha restablecido correctamente.',
+        })
+
+        router.push('/')
       })
     },
-    [
-      // router, params, resetPassword, toast
-    ],
+    [router, params, resetPassword, toast],
   )
 
   return (
