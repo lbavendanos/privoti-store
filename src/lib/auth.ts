@@ -18,7 +18,11 @@ export interface User {
 export type AuthResponse = { user?: User } & ApiError
 
 export function useAuth() {
-  const { data: user, mutate } = useSWR<User | null>(
+  const {
+    data: user,
+    isLoading,
+    mutate,
+  } = useSWR<User | null>(
     '/api/auth/user',
     (url: string) =>
       api.get<{ data: User }>(url).then(({ data: response }) => response.data),
@@ -149,6 +153,7 @@ export function useAuth() {
   }, [setUser])
 
   return {
+    isLoading,
     user,
     setUser,
     check,

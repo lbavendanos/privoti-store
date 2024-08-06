@@ -4,14 +4,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { Login } from '@/components/auth/login/login'
 import { Register } from '@/components/auth/register/register'
 import { Forgot } from '@/components/auth/password/forgot/forgot'
-// import { useAutoAnimate } from '@formkit/auto-animate/react'
 // import { useAccountSheet } from './account-sheet'
 
 export function AccountUnauthenticated() {
   // const { close } = useAccountSheet()
-  // const [parent] = useAutoAnimate<HTMLDivElement>()
 
-  const [showLogin, setShowLogin] = useState(false)
+  const [showLogin, setShowLogin] = useState(true)
   const [showRegister, setShowRegister] = useState(false)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
 
@@ -57,15 +55,8 @@ export function AccountUnauthenticated() {
     ],
   )
 
-  useEffect(() => {
-    setShowLogin(true)
-  }, [])
-
   return (
-    <div
-      // ref={parent}
-      className="flex min-h-full w-full flex-col justify-center"
-    >
+    <div className="flex min-h-full w-full flex-col justify-center">
       {showLogin && (
         <Login
           className="border-0 shadow-none"
