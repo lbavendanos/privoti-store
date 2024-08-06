@@ -28,14 +28,17 @@ export function useAuth() {
       api.get<{ data: User }>(url).then(({ data: response }) => response.data),
     {
       shouldRetryOnError: false,
+      onError: () => {
+        setUser(null, false)
+      },
     },
   )
 
   const check = useMemo(() => !!user, [user])
 
   const setUser = useCallback(
-    (user?: User | null) => {
-      mutate(user)
+    (user?: User | null, revalidate: boolean = true) => {
+      mutate(user, { revalidate })
     },
     [mutate],
   )

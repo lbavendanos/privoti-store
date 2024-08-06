@@ -9,7 +9,7 @@ export function AuthErrorFooter() {
   const { isLoading, check } = useAuth()
 
   if (isLoading) return <AuthErrorFooterFallback />
-  if (!check) return null
+  if (check) return null
 
   return (
     <div className="mt-6 space-y-1 text-center">
