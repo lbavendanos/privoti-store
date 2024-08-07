@@ -94,10 +94,11 @@ export function ResetForm(props: ResetFormProps) {
           description: 'Tu contraseña se ha restablecido correctamente.',
         })
 
+        form.reset()
         router.push('/')
       })
     },
-    [router, params, resetPassword, toast],
+    [form, router, params, resetPassword, toast],
   )
 
   return (

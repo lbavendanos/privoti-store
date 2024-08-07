@@ -70,7 +70,7 @@ type FormValues = z.infer<typeof FormSchema>
 export interface RegisterFormProps
   extends React.ComponentPropsWithoutRef<'form'> {}
 
-export function RegisterForm({ ...props }: RegisterFormProps) {
+export function RegisterForm(props: RegisterFormProps) {
   const { register } = useAuth()
   const { toast } = useToast()
 
@@ -110,12 +110,14 @@ export function RegisterForm({ ...props }: RegisterFormProps) {
             'Verifique su correo electrónico para continuar con el proceso de inicio de sesión.',
         })
 
+        form.reset()
+
         if (pathname.startsWith('/register')) {
           router.push('/')
         }
       })
     },
-    [router, pathname, register, toast],
+    [form, router, pathname, register, toast],
   )
 
   return (

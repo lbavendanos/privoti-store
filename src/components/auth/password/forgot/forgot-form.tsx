@@ -33,11 +33,9 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>
 
 export interface ForgotFormProps
-  extends React.ComponentPropsWithoutRef<'form'> {
-  onSuccess?: () => void
-}
+  extends React.ComponentPropsWithoutRef<'form'> {}
 
-export function ForgotForm({ onSuccess, ...props }: ForgotFormProps) {
+export function ForgotForm(props: ForgotFormProps) {
   const { sendResetEmail } = useAuth()
   const { toast } = useToast()
 
@@ -72,10 +70,9 @@ export function ForgotForm({ onSuccess, ...props }: ForgotFormProps) {
         })
 
         form.reset()
-        onSuccess?.()
       })
     },
-    [form, sendResetEmail, toast, onSuccess],
+    [form, sendResetEmail, toast],
   )
 
   return (

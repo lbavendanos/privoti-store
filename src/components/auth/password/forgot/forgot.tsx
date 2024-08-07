@@ -11,13 +11,11 @@ import { RegisterFooter } from '../../register/register-footer'
 import { LoginFooter } from '../../login/login-footer'
 
 export interface ForgotProps extends React.ComponentPropsWithoutRef<'div'> {
-  onSuccess?: () => void
   onLoginClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
   onRegisterClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 export function Forgot({
-  onSuccess,
   onLoginClick,
   onRegisterClick,
   ...props
@@ -34,7 +32,7 @@ export function Forgot({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ForgotForm onSuccess={onSuccess} />
+        <ForgotForm />
       </CardContent>
       <CardFooter className="flex-col justify-center gap-1">
         <RegisterFooter onClick={onRegisterClick} />

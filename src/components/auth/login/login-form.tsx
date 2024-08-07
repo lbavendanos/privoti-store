@@ -79,6 +79,8 @@ export function LoginForm({ onForgotPasswordClick, ...props }: LoginFomProps) {
           return
         }
 
+        form.reset()
+
         if (
           pathname.startsWith('/login') ||
           pathname.startsWith('/register') ||
@@ -88,7 +90,7 @@ export function LoginForm({ onForgotPasswordClick, ...props }: LoginFomProps) {
         }
       })
     },
-    [router, pathname, login, toast],
+    [form, router, pathname, login, toast],
   )
 
   return (
