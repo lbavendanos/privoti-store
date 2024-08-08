@@ -18,7 +18,7 @@ export function AccountAuthenticated() {
           <Profile />
         </TabsContent>
       </div>
-      <div className="sticky bottom-0 p-6 pt-0">
+      <div className="sticky bottom-0">
         <TabsList className="grid grid-cols-3">
           <TabsTrigger value="forYou">Para ti</TabsTrigger>
           <TabsTrigger value="orders">Pedidos</TabsTrigger>

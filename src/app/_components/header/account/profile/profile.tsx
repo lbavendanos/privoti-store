@@ -1,5 +1,6 @@
 import { SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { AccountLogoutButton } from './../account-logout-button'
+import { Info } from './info/info'
 
 export function Profile() {
   return (
@@ -9,7 +10,7 @@ export function Profile() {
       </SheetHeader>
       <div className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-2">
-          {/* <Info /> */}
+          <Info />
           {/* <Addresses /> */}
         </div>
         <AccountLogoutButton />
