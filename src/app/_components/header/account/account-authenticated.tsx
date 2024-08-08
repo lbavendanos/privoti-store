@@ -1,5 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-
 import { ForYou } from './for-you/for-you'
 import { Orders } from './orders/orders'
 import { Profile } from './profile/profile'

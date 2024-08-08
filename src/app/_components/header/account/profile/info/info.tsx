@@ -23,7 +23,7 @@ export function Info() {
         <div
           className={`absolute right-0 top-0 h-full w-full transform bg-white p-6 shadow-lg transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
         >
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col gap-y-2">
             <div className="flex flex-row items-center gap-x-1.5">
               <Button
                 type="button"

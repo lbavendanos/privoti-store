@@ -1,12 +1,11 @@
 import { Card, CardContent } from '@/components/ui/card'
-import { SheetHeader, SheetTitle } from '@/components/ui/sheet'
 
 export function ForYou() {
   return (
-    <div className="flex h-full flex-col">
-      <SheetHeader>
-        <SheetTitle className="uppercase">Bienvenido</SheetTitle>
-      </SheetHeader>
+    <div className="flex h-full flex-col gap-y-4">
+      <h2 className="text-lg font-semibold uppercase text-foreground">
+        Bienvenido
+      </h2>
       <div className="flex flex-col space-y-1">
         <h3 className="text-base font-semibold text-foreground">
           Visto recientemente
