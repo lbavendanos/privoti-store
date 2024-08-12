@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
-import { Detail } from './detail/detail'
 import { ArrowLeft, User } from 'lucide-react'
+import { DetailForm } from './detail-form'
 
-export function Info() {
+export function Detail() {
+  const { user } = useAuth()
   const [open, setOpen] = useState(false)
 
   return (
@@ -14,11 +16,18 @@ export function Info() {
         variant="outline"
         size="sm"
         className="h-12 justify-start"
-        aria-label="Abrir datos personales"
+        aria-label="Abrir información personal"
         onClick={() => setOpen(true)}
       >
         <User className="mr-2 h-6 w-6" />
-        <span>Datos personales</span>
+        <div className="flex flex-col items-start gap-y-1">
+          <span className="text-sm font-medium leading-none">
+            Información personal
+          </span>
+          <span className="text-xs leading-none text-muted-foreground">
+            {user?.first_name} {user?.last_name}
+          </span>
+        </div>
       </Button>
       {open && (
         <div
@@ -36,18 +45,10 @@ export function Info() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <h2 className="text-lg font-semibold uppercase text-foreground">
-                Datos personales
+                Editar información personal
               </h2>
             </div>
-            <div className="flex flex-col gap-y-4">
-              <p className="text-sm text-muted-foreground">
-                Modifica tus datos personales a continuación para que tu cuenta
-                esté actualizada.
-              </p>
-              <div className="flex h-full flex-col gap-y-2">
-                <Detail />
-              </div>
-            </div>
+            <DetailForm onSuccess={() => setOpen(false)} />
           </div>
         </div>
       )}
