@@ -45,7 +45,7 @@ export function Detail() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <h2 className="text-lg font-semibold uppercase text-foreground">
-                Editar información personal
+                Información personal
               </h2>
             </div>
             <DetailForm onSuccess={() => setOpen(false)} />

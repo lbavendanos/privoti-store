@@ -106,19 +106,16 @@ interface User {
 
 type UserResponse = { user?: User } & ApiError
 
-async function updateUser(
-  id: number,
-  data: {
-    first_name: string
-    last_name: string
-    dob?: string
-    phone?: string
-  },
-): Promise<UserResponse> {
+async function updateUser(data: {
+  first_name: string
+  last_name: string
+  phone?: string
+  dob?: string
+}): Promise<UserResponse> {
   try {
     const {
       data: { data: user },
-    } = await api.put<{ data: User }>(`/users/${id}`, data)
+    } = await api.put<{ data: User }>('/api/auth/user', data)
 
     return { user }
   } catch (error: any) {
@@ -141,20 +138,17 @@ export function DetailForm({ onSuccess }: DetailFormProps) {
     defaultValues: {
       first_name: user?.first_name || '',
       last_name: user?.last_name || '',
-      dob: user?.dob || '',
       phone: user?.phone || '',
+      dob: user?.dob || '',
     },
   })
 
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        const { user: userUpdated, error } = await updateUser(
-          user?.id!,
-          data as any,
-        )
+        const { user: userUpdated, error } = await updateUser(data as any)
 
-        if (!error) {
+        if (error) {
           toast({
             variant: 'destructive',
             description: error,
@@ -168,7 +162,7 @@ export function DetailForm({ onSuccess }: DetailFormProps) {
         onSuccess?.()
       })
     },
-    [user, setUser, toast, onSuccess],
+    [setUser, toast, onSuccess],
   )
 
   return (
