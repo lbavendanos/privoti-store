@@ -2,8 +2,8 @@
 
 import type { ApiError } from '@/lib/http'
 import isMobilePhone from 'validator/es/lib/isMobilePhone'
-import { api } from '@/lib/http'
 import { z } from 'zod'
+import { api } from '@/lib/http'
 import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -146,7 +146,13 @@ export function DetailForm({ onSuccess }: DetailFormProps) {
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        const { user: userUpdated, error } = await updateUser(data as any)
+        const { user: userUpdated, error } = await updateUser({
+          ...data,
+          dob:
+            data.dob instanceof Date
+              ? data.dob.toISOString().slice(0, 10)
+              : data.dob,
+        })
 
         if (error) {
           toast({

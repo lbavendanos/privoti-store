@@ -1,12 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Detail } from './detail/detail'
-import { Password } from './password/password'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, User } from 'lucide-react'
+import { ArrowLeft, Asterisk } from 'lucide-react'
+import { PasswordForm } from './password-form'
 
-export function Info() {
+export function Password() {
   const [open, setOpen] = useState(false)
 
   return (
@@ -15,11 +14,11 @@ export function Info() {
         variant="outline"
         size="sm"
         className="h-12 justify-start"
-        aria-label="Abrir datos personales"
+        aria-label="Abrir password"
         onClick={() => setOpen(true)}
       >
-        <User className="mr-2 h-6 w-6" />
-        <span>Datos personales</span>
+        <Asterisk className="mr-2 h-6 w-6" />
+        <span className="text-sm font-medium leading-none">Contraseña</span>
       </Button>
       {open && (
         <div
@@ -37,19 +36,10 @@ export function Info() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <h2 className="text-lg font-semibold uppercase text-foreground">
-                Datos personales
+                Cambiar contraseña
               </h2>
             </div>
-            <div className="flex flex-col gap-y-4">
-              <p className="text-sm text-muted-foreground">
-                Modifica tus datos personales a continuación para que tu cuenta
-                esté actualizada.
-              </p>
-              <div className="flex h-full flex-col gap-y-2">
-                <Detail />
-                <Password />
-              </div>
-            </div>
+            <PasswordForm onSuccess={() => setOpen(false)} />
           </div>
         </div>
       )}

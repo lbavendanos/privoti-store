@@ -185,9 +185,15 @@ class Api extends Fetch {
   }
 
   handleError(error: any): ApiError {
+    if (error?.code === 422) {
+      return {
+        errors: error?.response?.data?.errors,
+        error: this.plainErrors(error?.response?.data?.errors || {}),
+      }
+    }
+
     return {
-      errors: error?.response?.data?.errors,
-      error: this.plainErrors(error?.response?.data?.errors || {}),
+      error: error?.response?.data?.message || error?.response?.data?.error,
     }
   }
 
