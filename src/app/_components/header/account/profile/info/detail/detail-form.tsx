@@ -23,7 +23,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Loader2 } from 'lucide-react'
 
-export const FormSchema = z.object({
+const FormSchema = z.object({
   first_name: z
     .string({
       required_error: 'El nombre es requerido.',

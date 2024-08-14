@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { Detail } from './detail/detail'
-import { Email } from './email/email'
-import { Password } from './password/password'
+import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, User } from 'lucide-react'
+import { ArrowLeft, Mail } from 'lucide-react'
+import { EmailForm } from './email-form'
 
-export function Info() {
+export function Email() {
+  const { user } = useAuth()
   const [open, setOpen] = useState(false)
 
   return (
@@ -16,11 +16,18 @@ export function Info() {
         variant="outline"
         size="sm"
         className="h-12 justify-start"
-        aria-label="Abrir datos personales"
+        aria-label="Abrir correo electrónico"
         onClick={() => setOpen(true)}
       >
-        <User className="mr-2 h-6 w-6" />
-        <span>Datos personales</span>
+        <Mail className="mr-2 h-6 w-6" />
+        <div className="flex flex-col items-start gap-y-1">
+          <span className="text-sm font-medium leading-none">
+            Correo electrónico
+          </span>
+          <span className="text-xs leading-none text-muted-foreground">
+            {user?.email}
+          </span>
+        </div>
       </Button>
       {open && (
         <div
@@ -38,20 +45,10 @@ export function Info() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <h2 className="text-lg font-semibold uppercase text-foreground">
-                Datos personales
+                Cambiar correo electrónico
               </h2>
             </div>
-            <div className="flex flex-col gap-y-4">
-              <p className="text-sm text-muted-foreground">
-                Modifica tus datos personales a continuación para que tu cuenta
-                esté actualizada.
-              </p>
-              <div className="flex h-full flex-col gap-y-2">
-                <Detail />
-                <Email />
-                <Password />
-              </div>
-            </div>
+            <EmailForm onSuccess={() => setOpen(false)} />
           </div>
         </div>
       )}
