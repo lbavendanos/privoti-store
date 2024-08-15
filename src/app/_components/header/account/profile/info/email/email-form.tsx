@@ -1,6 +1,8 @@
 'use client'
 
+import type { ApiError } from '@/lib/http'
 import { z } from 'zod'
+import { api } from '@/lib/http'
 import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -33,6 +35,18 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>
 
+type EmailResponse = {} & ApiError
+
+async function updateEmail(data: { email: string }): Promise<EmailResponse> {
+  try {
+    await api.post('/api/auth/user/email/notification', data)
+
+    return {}
+  } catch (error: any) {
+    return api.handleError(error)
+  }
+}
+
 interface EmailFormProps {
   onSuccess?: () => void
 }
@@ -50,52 +64,34 @@ export function EmailForm({ onSuccess }: EmailFormProps) {
     },
   })
 
-  // const getErrorMessageByStatus = useCallback(
-  //   (status?: number, errors?: string | string[]): string => {
-  //     if (status === 422) {
-  //       if (
-  //         errors ===
-  //         'A user with this email address has already been registered'
-  //       )
-  //         return 'Un usuario con esta dirección de correo electrónico ya ha sido registrado'
-  //
-  //       return 'Los datos enviados no son válidos.'
-  //     }
-  //     if (status === 429)
-  //       return 'Demasiadas solicitudes. Inténtalo de nuevo más tarde.'
-  //
-  //     return 'Hubo un problema con su solicitud.'
-  //   },
-  //   [],
-  // )
-
   const handleSubmit = useCallback(
-    () => {
+    (data: FormValues) => {
+      if (data.email === user?.email) {
+        onSuccess?.()
+        return
+      }
+
       startTransition(async () => {
-        // const { success, status, errors } = await updateUserEmailAction(formData)
-        //
-        // if (!success) {
-        //   toast({
-        //     variant: 'destructive',
-        //     title: 'Uh oh! Algo salió mal.',
-        //     description: getErrorMessageByStatus(status, errors),
-        //   })
-        //
-        //   return
-        // }
-        //
-        // toast({
-        //   title: 'Se envió un correo electrónico de confirmación.',
-        //   description:
-        //     'Verifique su bandeja de entrada para confirmar su nueva dirección de correo electrónico.',
-        // })
-        //
-        // onSuccess?.()
+        const { error } = await updateEmail(data)
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
+
+        toast({
+          title: 'Se envió un correo electrónico de confirmación.',
+          description:
+            'Verifique su bandeja de entrada para confirmar su nueva dirección de correo electrónico.',
+        })
+        onSuccess?.()
       })
     },
-    [
-      // toast, getErrorMessageByStatus, onSuccess
-    ],
+    [user, toast, onSuccess],
   )
 
   return (

@@ -35,5 +35,30 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  if (type === 'verify-new-email') {
+    const id = searchParams.get('id')
+    const email = searchParams.get('email')
+    const token = searchParams.get('token')
+    const expires = searchParams.get('expires')
+    const signature = searchParams.get('signature')
+
+    if (id && email && token && expires && signature) {
+      try {
+        await api.get(`/auth/user/email/verify/${id}/${email}/${token}`, {
+          params: { expires, signature },
+          cookies: cookieStore,
+          headers: {
+            Cookie: cookieStore
+              .getAll()
+              .map((c) => `${c.name}=${c.value}`)
+              .join('; '),
+          },
+        })
+      } catch (error: any) {
+        return NextResponse.redirect(url(`/auth/error?type=${type}`))
+      }
+    }
+  }
+
   return NextResponse.redirect(url(next))
 }
