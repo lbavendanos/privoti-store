@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
 
   const type = searchParams.get('type')
-  const next = searchParams.get('next') ?? '/'
+  const next = searchParams.get('next') ?? '/?verified=1'
 
   try {
     if (type === 'verify-email') {
