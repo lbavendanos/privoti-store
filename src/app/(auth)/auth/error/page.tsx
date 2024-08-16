@@ -3,12 +3,16 @@ import { redirect } from 'next/navigation'
 import { AuthErrorFooter } from './_components/auth-error-footer'
 
 const AUTH_VERIFY_EMAIL_ERROR = 'verify-email'
-type AuthError = typeof AUTH_VERIFY_EMAIL_ERROR
+const AUTH_VERIFY_NEW_EMAIL_ERROR = 'verify-new-email'
+
+type AuthError =
+  | typeof AUTH_VERIFY_EMAIL_ERROR
+  | typeof AUTH_VERIFY_NEW_EMAIL_ERROR
 
 function AuthErrorTitle({ type }: { type: AuthError }) {
   return (
     <h1 className="text-center text-3xl font-bold tracking-tight lg:text-4xl">
-      {type === AUTH_VERIFY_EMAIL_ERROR &&
+      {[AUTH_VERIFY_EMAIL_ERROR, AUTH_VERIFY_NEW_EMAIL_ERROR].includes(type) &&
         'Error al verificar correo electrónico'}
     </h1>
   )
@@ -17,7 +21,9 @@ function AuthErrorTitle({ type }: { type: AuthError }) {
 function AuthErrorDescription({ type }: { type: AuthError }) {
   return (
     <p className="text-center text-base text-muted-foreground lg:text-lg">
-      {type === AUTH_VERIFY_EMAIL_ERROR && (
+      {[AUTH_VERIFY_EMAIL_ERROR, AUTH_VERIFY_NEW_EMAIL_ERROR].includes(
+        type,
+      ) && (
         <>
           La solicitud de verificación de correo electrónico ha caducado. Vuelva
           a generar una nueva solicitud.
@@ -34,7 +40,10 @@ export function generateMetadata({
 }): Metadata {
   const type = searchParams.type as AuthError | undefined
 
-  if (type === AUTH_VERIFY_EMAIL_ERROR)
+  if (
+    type &&
+    [AUTH_VERIFY_EMAIL_ERROR, AUTH_VERIFY_NEW_EMAIL_ERROR].includes(type)
+  )
     return { title: 'Error al verificar correo electrónico' }
 
   return {

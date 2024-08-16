@@ -44,10 +44,12 @@ export async function GET(request: NextRequest) {
 
     if (id && email && token && expires && signature) {
       try {
-        await api.get(`/auth/user/email/verify/${id}/${email}/${token}`, {
+        await api.get(`/api/auth/user/email/verify/${id}/${email}/${token}`, {
           params: { expires, signature },
           cookies: cookieStore,
           headers: {
+            Origin: url().origin,
+            Referer: url().toString(),
             Cookie: cookieStore
               .getAll()
               .map((c) => `${c.name}=${c.value}`)
