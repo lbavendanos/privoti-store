@@ -3,63 +3,77 @@ import { cookies } from 'next/headers'
 import { api } from '@/lib/http'
 import { url } from '@/lib/utils'
 
-export async function GET(request: NextRequest) {
+function confirmFetch(path: string, request: NextRequest) {
+  const cookieStore = cookies()
   const { searchParams } = new URL(request.url)
 
-  const cookieStore = cookies()
+  const expires = searchParams.get('expires')
+  const signature = searchParams.get('signature')
+
+  if (!expires || !signature) {
+    throw new Error('Missing expires or signature')
+  }
+
+  return api.get(path, {
+    params: { expires, signature },
+    cookies: cookieStore,
+    headers: {
+      Origin: url().origin,
+      Referer: url().toString(),
+      Cookie: cookieStore
+        .getAll()
+        .map((c) => `${c.name}=${c.value}`)
+        .join('; '),
+    },
+  })
+}
+
+function verifyEmail(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+
+  const id = searchParams.get('id')
+  const token = searchParams.get('token')
+
+  if (!id || !token) {
+    throw new Error('Missing id or token')
+  }
+
+  return confirmFetch(`/verify-email/${id}/${token}`, request)
+}
+
+function verifyNewEmail(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+
+  const id = searchParams.get('id')
+  const email = searchParams.get('email')
+  const token = searchParams.get('token')
+
+  if (!id || !email || !token) {
+    throw new Error('Missing id, email or token')
+  }
+
+  return confirmFetch(
+    `/api/auth/user/email/verify/${id}/${email}/${token}`,
+    request,
+  )
+}
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
 
   const type = searchParams.get('type')
   const next = searchParams.get('next') ?? '/'
 
-  if (type === 'verify-email') {
-    const id = searchParams.get('id')
-    const token = searchParams.get('token')
-    const expires = searchParams.get('expires')
-    const signature = searchParams.get('signature')
-
-    if (id && token && expires && signature) {
-      try {
-        await api.get(`/verify-email/${id}/${token}`, {
-          params: { expires, signature },
-          cookies: cookieStore,
-          headers: {
-            Cookie: cookieStore
-              .getAll()
-              .map((c) => `${c.name}=${c.value}`)
-              .join('; '),
-          },
-        })
-      } catch (error: any) {
-        return NextResponse.redirect(url(`/auth/error?type=${type}`))
-      }
+  try {
+    if (type === 'verify-email') {
+      await verifyEmail(request)
     }
-  }
 
-  if (type === 'verify-new-email') {
-    const id = searchParams.get('id')
-    const email = searchParams.get('email')
-    const token = searchParams.get('token')
-    const expires = searchParams.get('expires')
-    const signature = searchParams.get('signature')
-
-    if (id && email && token && expires && signature) {
-      try {
-        await api.get(`/api/auth/user/email/verify/${id}/${email}/${token}`, {
-          params: { expires, signature },
-          cookies: cookieStore,
-          headers: {
-            Origin: url().origin,
-            Referer: url().toString(),
-            Cookie: cookieStore
-              .getAll()
-              .map((c) => `${c.name}=${c.value}`)
-              .join('; '),
-          },
-        })
-      } catch (error: any) {
-        return NextResponse.redirect(url(`/auth/error?type=${type}`))
-      }
+    if (type === 'verify-new-email') {
+      await verifyNewEmail(request)
     }
+  } catch (error: any) {
+    return NextResponse.redirect(url(`/auth/error?type=${type}`))
   }
 
   return NextResponse.redirect(url(next))
