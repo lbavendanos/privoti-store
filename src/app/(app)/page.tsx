@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { HomeEmailVerifyAlert } from './components/home-email-verify-alert'
 
 export default function HomePage() {
@@ -6,7 +7,9 @@ export default function HomePage() {
       <section className="grid grid-cols-12 items-center gap-6">
         <div className="col-span-12">Home Page</div>
       </section>
-      <HomeEmailVerifyAlert />
+      <Suspense fallback={null}>
+        <HomeEmailVerifyAlert />
+      </Suspense>
     </div>
   )
 }
