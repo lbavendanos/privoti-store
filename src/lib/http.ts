@@ -152,6 +152,17 @@ class Fetch {
     })
   }
 
+  async delete<TData = any>(
+    url: string,
+    config: FetchRequestConfig = {},
+  ): Promise<FetchResponse<TData>> {
+    config = this.#handleConfig({ url, method: 'DELETE', ...config })
+
+    return fetch(config.url!, config).then((response) => {
+      return this.#handleResponse(response)
+    })
+  }
+
   static create(config?: FetchRequestConfig) {
     return new Fetch(config)
   }
