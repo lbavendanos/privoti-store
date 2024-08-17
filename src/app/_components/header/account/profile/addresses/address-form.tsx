@@ -397,6 +397,7 @@ function AddressDefaultButton({
   address: Address
   onSuccess?: () => void
 }) {
+  const { setDefaultAddress } = useAddresses()
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
@@ -406,32 +407,25 @@ function AddressDefaultButton({
       e.preventDefault()
 
       startTransition(async () => {
-        // const { data, success } = await setDefaultAddressAction(address.id)
-        //
-        // if (!success) {
-        //   toast({
-        //     variant: 'destructive',
-        //     title: 'Uh oh! Algo salió mal.',
-        //     description: 'Hubo un problema con su solicitud.',
-        //   })
-        //
-        //   return
-        // }
-        //
-        // if (data) {
-        //   setDefaultAddress(data)
-        // }
-        //
-        // toast({
-        //   description: 'Se ha establecido su dirección predeterminada.',
-        // })
-        //
-        // onSuccess?.()
+        const { error } = await setDefaultAddress(address)
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
+
+        toast({
+          description: 'Se ha establecido su dirección predeterminada.',
+        })
+
+        onSuccess?.()
       })
     },
-    [
-      // toast, setDefaultAddress, onSuccess, address
-    ],
+    [address, toast, setDefaultAddress, onSuccess],
   )
 
   return (
@@ -465,7 +459,16 @@ function AddressDeleteButton({
       e.preventDefault()
 
       startTransition(async () => {
-        await removeAddress(address)
+        const { error } = await removeAddress(address)
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            description: error,
+          })
+
+          return
+        }
 
         toast({
           description: 'Su dirección ha sido eliminada correctamente.',

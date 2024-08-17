@@ -1,6 +1,7 @@
+import type { ApiError } from '@/lib/http'
 import useSWR from 'swr'
 import { useCallback, useMemo } from 'react'
-import { api, ApiError } from '@/lib/http'
+import { api } from '@/lib/http'
 
 export interface Address {
   id: number
@@ -23,7 +24,7 @@ export type AddressResponse = { address?: Address } & ApiError
 export function useAddresses(
   config: Parameters<typeof useSWR<Addresses>>[2] = {},
 ) {
-  const { data, mutate, ...rest } = useSWR<Addresses>(
+  const { data, mutate } = useSWR<Addresses>(
     '/api/auth/addresses',
     (url: string) =>
       api
@@ -79,17 +80,27 @@ export function useAddresses(
     [addresses, setAddresses],
   )
 
-  // const setDefaultAddress = useCallback(
-  //   (address: Address) => {
-  //     mutate(
-  //       addresses.map((a) => ({
-  //         ...a,
-  //         default: a.id === address.id,
-  //       })),
-  //     )
-  //   },
-  //   [mutate, addresses],
-  // )
+  const setDefaultAddress = useCallback(
+    async (address: Address): Promise<AddressResponse> => {
+      try {
+        const {
+          data: { data: defaultAddress },
+        } = await api.put(`/api/auth/addresses/${address.id}/default`, address)
+
+        setAddresses(
+          addresses.map((a) => ({
+            ...a,
+            default: a.id === defaultAddress.id,
+          })),
+        )
+
+        return { address: defaultAddress }
+      } catch (error: any) {
+        return api.handleError(error)
+      }
+    },
+    [addresses, setAddresses],
+  )
 
   const removeAddress = useCallback(
     async (address: Address): Promise<AddressResponse> => {
@@ -108,12 +119,9 @@ export function useAddresses(
 
   return {
     addresses,
-    setAddresses,
     addAddress,
     updateAddress,
-    // setDefaultAddress,
+    setDefaultAddress,
     removeAddress,
-    mutate,
-    ...rest,
   }
 }
