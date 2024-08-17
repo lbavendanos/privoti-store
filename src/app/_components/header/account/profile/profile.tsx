@@ -1,5 +1,6 @@
 import { AccountLogoutButton } from './../account-logout-button'
 import { Info } from './info/info'
+import { Addresses } from './addresses/addresses'
 
 export function Profile() {
   return (
@@ -10,7 +11,7 @@ export function Profile() {
       <div className="flex flex-col gap-y-4">
         <div className="flex flex-col gap-y-2">
           <Info />
-          {/* <Addresses /> */}
+          <Addresses />
         </div>
         <AccountLogoutButton />
       </div>
