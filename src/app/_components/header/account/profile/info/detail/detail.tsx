@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, User } from 'lucide-react'
 import { DetailForm } from './detail-form'

@@ -1,13 +1,11 @@
 'use client'
 
-import type { ApiError } from '@/lib/http'
 import { z } from 'zod'
-import { api } from '@/lib/http'
 import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -35,24 +33,12 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>
 
-type EmailResponse = {} & ApiError
-
-async function updateEmail(data: { email: string }): Promise<EmailResponse> {
-  try {
-    await api.post('/api/auth/user/email/notification', data)
-
-    return {}
-  } catch (error: any) {
-    return api.handleError(error)
-  }
-}
-
 interface EmailFormProps {
   onSuccess?: () => void
 }
 
 export function EmailForm({ onSuccess }: EmailFormProps) {
-  const { user } = useAuth()
+  const { user, sendEmailChangeVerificationNotification } = useAuth()
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
@@ -72,7 +58,7 @@ export function EmailForm({ onSuccess }: EmailFormProps) {
       }
 
       startTransition(async () => {
-        const { error } = await updateEmail(data)
+        const { error } = await sendEmailChangeVerificationNotification(data)
 
         if (error) {
           toast({
@@ -91,7 +77,7 @@ export function EmailForm({ onSuccess }: EmailFormProps) {
         onSuccess?.()
       })
     },
-    [user, toast, onSuccess],
+    [user, sendEmailChangeVerificationNotification, toast, onSuccess],
   )
 
   return (

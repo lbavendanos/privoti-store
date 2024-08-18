@@ -1,12 +1,11 @@
 'use client'
 
-import type { ApiError } from '@/lib/http'
 import { z } from 'zod'
-import { api } from '@/lib/http'
 import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
+import { useAuth } from '@/core/auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -36,26 +35,12 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>
 
-type PasswordResponse = {} & ApiError
-
-async function updatePassword(data: {
-  current_password: string
-  password?: string
-}): Promise<PasswordResponse> {
-  try {
-    await api.post('/api/auth/user/password', data)
-
-    return {}
-  } catch (error: any) {
-    return api.handleError(error)
-  }
-}
-
 interface PasswordFormProps {
   onSuccess?: () => void
 }
 
 export function PasswordForm({ onSuccess }: PasswordFormProps) {
+  const { updatePassword } = useAuth()
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
@@ -88,7 +73,7 @@ export function PasswordForm({ onSuccess }: PasswordFormProps) {
         onSuccess?.()
       })
     },
-    [toast, onSuccess],
+    [updatePassword, toast, onSuccess],
   )
 
   return (

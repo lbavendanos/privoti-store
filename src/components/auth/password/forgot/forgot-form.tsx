@@ -5,7 +5,7 @@ import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,

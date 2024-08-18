@@ -20,7 +20,7 @@ export type UserResponse = { user?: User } & ApiError
 export function useUser(
   config: Parameters<typeof useSWR<User | null>>[2] = {},
 ) {
-  const { data, mutate } = useSWR<User | null>(
+  const { data, isLoading, mutate } = useSWR<User | null>(
     '/api/auth/user',
     (url: string) =>
       api.get<{ data: User }>(url).then(({ data: response }) => response.data),
@@ -88,6 +88,7 @@ export function useUser(
   )
 
   return {
+    isLoading,
     user,
     setUser,
     updateUser,

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Mail } from 'lucide-react'
 import { EmailForm } from './email-form'

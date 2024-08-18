@@ -1,47 +1,17 @@
-import type { ApiError } from './http'
-import useSWR from 'swr'
-import { api } from './http'
+import type { User, UserResponse } from './user'
 import { useCallback, useMemo } from 'react'
-
-export interface User {
-  id: number
-  first_name: string
-  last_name: string
-  dob?: string
-  phone?: string
-  email: string
-  email_verified_at?: string
-  updated_at?: string
-  created_at?: string
-}
-
-export type AuthResponse = { user?: User } & ApiError
+import { useUser } from './user'
+import { api } from '@/lib/http'
 
 export function useAuth() {
-  const {
-    data: user,
-    isLoading,
-    mutate,
-  } = useSWR<User | null>(
-    '/api/auth/user',
-    (url: string) =>
-      api.get<{ data: User }>(url).then(({ data: response }) => response.data),
-    {
-      shouldRetryOnError: false,
-      onError: () => {
-        setUser(null, false)
-      },
+  const { user, setUser, ...rest } = useUser({
+    shouldRetryOnError: false,
+    onError: () => {
+      setUser(null, false)
     },
-  )
+  })
 
   const check = useMemo(() => !!user, [user])
-
-  const setUser = useCallback(
-    (user?: User | null, revalidate: boolean = true) => {
-      mutate(user, { revalidate })
-    },
-    [mutate],
-  )
 
   const csrf = useCallback(() => api.get('/sanctum/csrf-cookie'), [])
 
@@ -52,7 +22,7 @@ export function useAuth() {
       email: string
       password: string
       password_confirmation?: string
-    }): Promise<AuthResponse> => {
+    }): Promise<UserResponse> => {
       await csrf()
 
       try {
@@ -75,7 +45,7 @@ export function useAuth() {
       email: string
       password: string
       remember: boolean
-    }): Promise<AuthResponse> => {
+    }): Promise<UserResponse> => {
       await csrf()
 
       try {
@@ -94,7 +64,7 @@ export function useAuth() {
   )
 
   const sendResetEmail = useCallback(
-    async (data: { email: string }): Promise<AuthResponse> => {
+    async (data: { email: string }): Promise<UserResponse> => {
       await csrf()
 
       try {
@@ -114,7 +84,7 @@ export function useAuth() {
       email: string
       password: string
       password_confirmation?: string
-    }): Promise<AuthResponse> => {
+    }): Promise<UserResponse> => {
       await csrf()
 
       try {
@@ -133,7 +103,7 @@ export function useAuth() {
   )
 
   const resendEmailVerification =
-    useCallback(async (): Promise<AuthResponse> => {
+    useCallback(async (): Promise<UserResponse> => {
       try {
         await api.post('/email/verification-notification')
 
@@ -143,7 +113,7 @@ export function useAuth() {
       }
     }, [])
 
-  const logout = useCallback(async (): Promise<AuthResponse> => {
+  const logout = useCallback(async (): Promise<UserResponse> => {
     try {
       await api.post('/logout')
 
@@ -156,9 +126,7 @@ export function useAuth() {
   }, [setUser])
 
   return {
-    isLoading,
     user,
-    setUser,
     check,
     register,
     login,
@@ -166,5 +134,6 @@ export function useAuth() {
     resetPassword,
     resendEmailVerification,
     logout,
+    ...rest,
   }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useTransition } from 'react'
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'

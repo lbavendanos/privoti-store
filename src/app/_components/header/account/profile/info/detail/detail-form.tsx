@@ -1,13 +1,11 @@
 'use client'
 
-import type { ApiError } from '@/lib/http'
 import isMobilePhone from 'validator/es/lib/isMobilePhone'
 import { z } from 'zod'
-import { api } from '@/lib/http'
 import { useCallback, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { useToast } from '@/components/ui/use-toast'
 import { NAME_REGEX } from '@/lib/regex'
 import { Button } from '@/components/ui/button'
@@ -92,43 +90,12 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>
 
-interface User {
-  id: number
-  first_name: string
-  last_name: string
-  dob?: string
-  phone?: string
-  email: string
-  email_verified_at?: string
-  updated_at?: string
-  created_at?: string
-}
-
-type UserResponse = { user?: User } & ApiError
-
-async function updateUser(data: {
-  first_name: string
-  last_name: string
-  phone?: string
-  dob?: string
-}): Promise<UserResponse> {
-  try {
-    const {
-      data: { data: user },
-    } = await api.put<{ data: User }>('/api/auth/user', data)
-
-    return { user }
-  } catch (error: any) {
-    return api.handleError(error)
-  }
-}
-
 interface DetailFormProps {
   onSuccess?: () => void
 }
 
 export function DetailForm({ onSuccess }: DetailFormProps) {
-  const { user, setUser } = useAuth()
+  const { user, updateUser } = useAuth()
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
@@ -146,7 +113,7 @@ export function DetailForm({ onSuccess }: DetailFormProps) {
   const handleSubmit = useCallback(
     (data: FormValues) => {
       startTransition(async () => {
-        const { user: userUpdated, error } = await updateUser({
+        const { error } = await updateUser({
           ...data,
           dob:
             data.dob instanceof Date
@@ -163,12 +130,11 @@ export function DetailForm({ onSuccess }: DetailFormProps) {
           return
         }
 
-        setUser(userUpdated)
         toast({ description: 'Su perfil ha sido actualizado correctamente.' })
         onSuccess?.()
       })
     },
-    [setUser, toast, onSuccess],
+    [updateUser, toast, onSuccess],
   )
 
   return (

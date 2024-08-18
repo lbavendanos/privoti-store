@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from '@/lib/auth'
+import { useAuth } from '@/core/auth'
 import { Skeleton } from '@/components/ui/skeleton'
 import { LoginFooter } from '@/components/auth/login/login-footer'
 import { RegisterFooter } from '@/components/auth/register/register-footer'
