@@ -9,7 +9,7 @@ export interface Address {
   last_name: string
   phone: string
   address1: string
-  address2: string
+  address2?: string
   district: string
   city: string
   state: string
