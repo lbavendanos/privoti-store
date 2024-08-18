@@ -9,7 +9,7 @@ import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ArrowLeft, Check, MapPin } from 'lucide-react'
-import { Address as AddressPane } from './address'
+import { Address as AddressPanel } from './address'
 import { ADDRESS_FORM_ADD_MODE, ADDRESS_FORM_EDIT_MODE } from './address-form'
 
 const ADDRESS_LIMIT = 5
@@ -97,7 +97,7 @@ function AddressesContent() {
             Agregar dirección
           </Button>
         )}
-        <AddressPane
+        <AddressPanel
           mode={mode}
           address={address}
           open={open}
@@ -150,9 +150,7 @@ export function Addresses() {
         <span>Direcciones</span>
       </Button>
       {open && (
-        <div
-          className={`absolute right-0 top-0 h-full w-full bg-white p-6 transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
-        >
+        <div className="absolute right-0 top-0 z-10 h-full w-full bg-background p-6">
           <div className="flex flex-col gap-y-2">
             <div className="flex flex-row items-center gap-x-1.5">
               <Button

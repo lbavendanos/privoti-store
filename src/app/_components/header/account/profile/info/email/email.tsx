@@ -30,9 +30,7 @@ export function Email() {
         </div>
       </Button>
       {open && (
-        <div
-          className={`absolute right-0 top-0 h-full w-full bg-white p-6 transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
-        >
+        <div className="absolute right-0 top-0 h-full w-full bg-background p-6">
           <div className="flex flex-col gap-y-2">
             <div className="flex flex-row items-center gap-x-1.5">
               <Button
