@@ -15,6 +15,8 @@ export interface Address {
   state: string
   default: boolean
   user_id: number
+  updated_at?: string
+  created_at?: string
 }
 
 export type Addresses = Address[]
