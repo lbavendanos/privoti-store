@@ -13,7 +13,7 @@ export function useAuth() {
 
   const check = useMemo(() => !!user, [user])
 
-  const csrf = useCallback(() => api.get('/sanctum/csrf-cookie'), [])
+  const csrf = useCallback(() => api.get('/api/auth/csrf-cookie'), [])
 
   const register = useCallback(
     async (data: {
