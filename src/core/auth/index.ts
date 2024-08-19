@@ -28,7 +28,7 @@ export function useAuth() {
       try {
         const {
           data: { data: user },
-        } = await api.post<{ data: User }>('/register', data)
+        } = await api.post<{ data: User }>('/api/auth/register', data)
 
         setUser(user)
 
@@ -51,7 +51,7 @@ export function useAuth() {
       try {
         const {
           data: { data: user },
-        } = await api.post<{ data: User }>('/login', data)
+        } = await api.post<{ data: User }>('/api/auth/login', data)
 
         setUser(user)
 
@@ -68,7 +68,7 @@ export function useAuth() {
       await csrf()
 
       try {
-        await api.post('/forgot-password', data)
+        await api.post('/api/auth/forgot-password', data)
 
         return {}
       } catch (error: any) {
@@ -90,7 +90,7 @@ export function useAuth() {
       try {
         const {
           data: { data: user },
-        } = await api.post('/reset-password', data)
+        } = await api.post('/api/auth/reset-password', data)
 
         setUser(user)
 
@@ -105,7 +105,7 @@ export function useAuth() {
   const resendEmailVerification =
     useCallback(async (): Promise<UserResponse> => {
       try {
-        await api.post('/email/verification-notification')
+        await api.post('/api/auth/email/verification-notification')
 
         return {}
       } catch (error: any) {
@@ -115,7 +115,7 @@ export function useAuth() {
 
   const logout = useCallback(async (): Promise<UserResponse> => {
     try {
-      await api.post('/logout')
+      await api.post('/api/auth/logout')
 
       setUser(null)
 
