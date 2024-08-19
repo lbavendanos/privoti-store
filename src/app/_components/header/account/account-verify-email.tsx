@@ -7,7 +7,7 @@ import { AccountLogoutButton } from './account-logout-button'
 import { Loader2 } from 'lucide-react'
 
 function AccountResendEmailButton() {
-  const { resendEmailVerification } = useAuth()
+  const { sendEmailVerificationNotification } = useAuth()
   const { toast } = useToast()
 
   const [isPending, startTransition] = useTransition()
@@ -17,7 +17,7 @@ function AccountResendEmailButton() {
       e.preventDefault()
 
       startTransition(async () => {
-        const { error } = await resendEmailVerification()
+        const { error } = await sendEmailVerificationNotification()
 
         if (error) {
           toast({
@@ -34,7 +34,7 @@ function AccountResendEmailButton() {
         })
       })
     },
-    [resendEmailVerification, toast],
+    [sendEmailVerificationNotification, toast],
   )
 
   return (

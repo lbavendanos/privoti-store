@@ -102,17 +102,6 @@ export function useAuth() {
     [csrf, setUser],
   )
 
-  const resendEmailVerification =
-    useCallback(async (): Promise<UserResponse> => {
-      try {
-        await api.post('/api/auth/email/verification-notification')
-
-        return {}
-      } catch (error: any) {
-        return api.handleError(error)
-      }
-    }, [])
-
   const logout = useCallback(async (): Promise<UserResponse> => {
     try {
       await api.post('/api/auth/logout')
@@ -132,7 +121,6 @@ export function useAuth() {
     login,
     sendResetEmail,
     resetPassword,
-    resendEmailVerification,
     logout,
     ...rest,
   }

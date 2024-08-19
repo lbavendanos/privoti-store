@@ -74,10 +74,21 @@ export function useUser(
     [],
   )
 
+  const sendEmailVerificationNotification =
+    useCallback(async (): Promise<UserResponse> => {
+      try {
+        await api.post('/api/auth/user/email/notification')
+
+        return {}
+      } catch (error: any) {
+        return api.handleError(error)
+      }
+    }, [])
+
   const sendEmailChangeVerificationNotification = useCallback(
     async (data: { email: string }): Promise<UserResponse> => {
       try {
-        await api.post('/api/auth/user/email/notification', data)
+        await api.post('/api/auth/user/email/new/notification', data)
 
         return {}
       } catch (error: any) {
@@ -93,6 +104,7 @@ export function useUser(
     setUser,
     updateUser,
     updatePassword,
+    sendEmailVerificationNotification,
     sendEmailChangeVerificationNotification,
   }
 }
