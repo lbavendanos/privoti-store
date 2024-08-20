@@ -27,7 +27,7 @@ export function useAddresses(
   config: Parameters<typeof useSWR<Addresses>>[2] = {},
 ) {
   const { data, mutate } = useSWR<Addresses>(
-    '/api/auth/addresses',
+    '/auth/addresses',
     (url: string) =>
       api
         .get<{ data: Addresses }>(url)
@@ -49,7 +49,7 @@ export function useAddresses(
       try {
         const {
           data: { data: addressAdded },
-        } = await api.post<{ data: Address }>('/api/auth/addresses', address)
+        } = await api.post<{ data: Address }>('/auth/addresses', address)
 
         setAddresses([...addresses, addressAdded])
 
@@ -66,7 +66,7 @@ export function useAddresses(
       try {
         const {
           data: { data: addressUpdated },
-        } = await api.put(`/api/auth/addresses/${address.id}`, address)
+        } = await api.put(`/auth/addresses/${address.id}`, address)
 
         setAddresses(
           addresses.map((a) =>
@@ -87,7 +87,7 @@ export function useAddresses(
       try {
         const {
           data: { data: defaultAddress },
-        } = await api.put(`/api/auth/addresses/${address.id}/default`, address)
+        } = await api.put(`/auth/addresses/${address.id}/default`, address)
 
         setAddresses(
           addresses.map((a) => ({
@@ -107,7 +107,7 @@ export function useAddresses(
   const removeAddress = useCallback(
     async (address: Address): Promise<AddressResponse> => {
       try {
-        await api.delete(`/api/auth/addresses/${address.id}`)
+        await api.delete(`/auth/addresses/${address.id}`)
 
         setAddresses(addresses.filter((a) => a.id !== address.id))
 

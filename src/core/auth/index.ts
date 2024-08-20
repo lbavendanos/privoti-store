@@ -13,7 +13,7 @@ export function useAuth() {
 
   const check = useMemo(() => !!user, [user])
 
-  const csrf = useCallback(() => api.get('/api/auth/csrf-cookie'), [])
+  const csrf = useCallback(() => api.get('/auth/csrf-cookie'), [])
 
   const register = useCallback(
     async (data: {
@@ -28,7 +28,7 @@ export function useAuth() {
       try {
         const {
           data: { data: user },
-        } = await api.post<{ data: User }>('/api/auth/register', data)
+        } = await api.post<{ data: User }>('/auth/register', data)
 
         setUser(user)
 
@@ -51,7 +51,7 @@ export function useAuth() {
       try {
         const {
           data: { data: user },
-        } = await api.post<{ data: User }>('/api/auth/login', data)
+        } = await api.post<{ data: User }>('/auth/login', data)
 
         setUser(user)
 
@@ -68,7 +68,7 @@ export function useAuth() {
       await csrf()
 
       try {
-        await api.post('/api/auth/forgot-password', data)
+        await api.post('/auth/forgot-password', data)
 
         return {}
       } catch (error: any) {
@@ -90,7 +90,7 @@ export function useAuth() {
       try {
         const {
           data: { data: user },
-        } = await api.post('/api/auth/reset-password', data)
+        } = await api.post('/auth/reset-password', data)
 
         setUser(user)
 
@@ -104,7 +104,7 @@ export function useAuth() {
 
   const logout = useCallback(async (): Promise<UserResponse> => {
     try {
-      await api.post('/api/auth/logout')
+      await api.post('/auth/logout')
 
       setUser(null)
 

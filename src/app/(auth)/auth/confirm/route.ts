@@ -38,7 +38,7 @@ function verifyEmail(request: NextRequest) {
     throw new Error('Missing id or token')
   }
 
-  return confirmFetch(`/api/auth/user/email/verify/${id}/${token}`, request)
+  return confirmFetch(`/auth/user/email/verify/${id}/${token}`, request)
 }
 
 function verifyNewEmail(request: NextRequest) {
@@ -53,7 +53,7 @@ function verifyNewEmail(request: NextRequest) {
   }
 
   return confirmFetch(
-    `/api/auth/user/email/new/verify/${id}/${email}/${token}`,
+    `/auth/user/email/new/verify/${id}/${email}/${token}`,
     request,
   )
 }

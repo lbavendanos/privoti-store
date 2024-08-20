@@ -21,7 +21,7 @@ export function useUser(
   config: Parameters<typeof useSWR<User | null>>[2] = {},
 ) {
   const { data, isLoading, mutate } = useSWR<User | null>(
-    '/api/auth/user',
+    '/auth/user',
     (url: string) =>
       api.get<{ data: User }>(url).then(({ data: response }) => response.data),
     config,
@@ -46,7 +46,7 @@ export function useUser(
       try {
         const {
           data: { data: user },
-        } = await api.put<{ data: User }>('/api/auth/user', data)
+        } = await api.put<{ data: User }>('/auth/user', data)
 
         setUser(user)
 
@@ -64,7 +64,7 @@ export function useUser(
       password?: string
     }): Promise<UserResponse> => {
       try {
-        await api.post('/api/auth/user/password', data)
+        await api.post('/auth/user/password', data)
 
         return {}
       } catch (error: any) {
@@ -77,7 +77,7 @@ export function useUser(
   const sendEmailVerificationNotification =
     useCallback(async (): Promise<UserResponse> => {
       try {
-        await api.post('/api/auth/user/email/notification')
+        await api.post('/auth/user/email/notification')
 
         return {}
       } catch (error: any) {
@@ -88,7 +88,7 @@ export function useUser(
   const sendEmailChangeVerificationNotification = useCallback(
     async (data: { email: string }): Promise<UserResponse> => {
       try {
-        await api.post('/api/auth/user/email/new/notification', data)
+        await api.post('/auth/user/email/new/notification', data)
 
         return {}
       } catch (error: any) {

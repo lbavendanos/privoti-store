@@ -36,7 +36,20 @@ class Fetch {
   }
 
   #handleURL(config: FetchRequestConfig) {
-    const input = new URL(config.url!, config.baseURL)
+    const baseURL = config.baseURL
+      ? config.baseURL.endsWith('/')
+        ? config.baseURL
+        : `${config.baseURL}/`
+      : config.baseURL
+
+    const url =
+      typeof config.url === 'string' || config.url instanceof String
+        ? config.url.startsWith('/')
+          ? config.url.substring(1)
+          : config.url
+        : config.url
+
+    const input = new URL(url!, baseURL)
 
     Object.entries(config.params || {}).forEach(([key, value]) => {
       input.searchParams.append(key, value as string)
