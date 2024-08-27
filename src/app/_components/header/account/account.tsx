@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useAuth } from '@/core/auth'
 import { User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -19,10 +18,9 @@ import { AccountVerifyEmail } from './account-verify-email'
 
 export function Account() {
   const { check, user } = useAuth()
-  const [open, setOpen] = useState(false)
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet>
       <SheetTrigger asChild>
         <Button
           type="button"
