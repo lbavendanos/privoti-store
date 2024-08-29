@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { HomeEmailVerifyAlert } from './components/home-email-verify-alert'
+import { HomeEmailVerifyAlert } from './_components/home-email-verify-alert'
 
 export default function HomePage() {
   return (
