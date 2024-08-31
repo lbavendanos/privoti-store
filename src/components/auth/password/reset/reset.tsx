@@ -7,11 +7,9 @@ import {
 } from '@/components/ui/card'
 import { ResetForm } from './reset-form'
 
-export interface ResetProps extends React.ComponentPropsWithoutRef<'div'> {}
-
-export function Reset(props: ResetProps) {
+export function Reset() {
   return (
-    <Card {...props}>
+    <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-center text-2xl">
           Crea tu nueva contraseña

@@ -8,6 +8,8 @@ import {
 } from '@/components/ui/card'
 import { LoginForm } from './login-form'
 import { RegisterFooter } from '../register/register-footer'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export interface LoginProps extends React.ComponentPropsWithoutRef<'div'> {
   onForgotPasswordClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
@@ -30,7 +32,12 @@ export function Login({
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <LoginForm onForgotPasswordClick={onForgotPasswordClick} />
+        <LoginForm />
+        <Button variant="link" className="h-fit p-0" asChild>
+          <Link href="/password/forgot" onClick={onForgotPasswordClick}>
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </Button>
       </CardContent>
       <CardFooter className="justify-center">
         <RegisterFooter onClick={onRegisterClick} />

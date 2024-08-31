@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/core/auth'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -43,11 +42,9 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>
 
-export interface LoginFomProps extends React.ComponentPropsWithoutRef<'form'> {
-  onForgotPasswordClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
-}
+export interface LoginFomProps {}
 
-export function LoginForm({ onForgotPasswordClick, ...props }: LoginFomProps) {
+export function LoginForm(props: LoginFomProps) {
   const { login } = useAuth()
   const { toast } = useToast()
 
@@ -162,13 +159,6 @@ export function LoginForm({ onForgotPasswordClick, ...props }: LoginFomProps) {
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Iniciar sesión
         </Button>
-        <div className="w-full text-center">
-          <Button variant="link" className="h-fit p-0" asChild>
-            <Link href="/password/forgot" onClick={onForgotPasswordClick}>
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </Button>
-        </div>
       </form>
     </Form>
   )
