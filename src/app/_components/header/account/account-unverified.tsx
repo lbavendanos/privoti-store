@@ -53,7 +53,7 @@ function AccountResendEmailButton() {
   )
 }
 
-export function AccountVerifyEmail() {
+export function AccountUnverified() {
   return (
     <div className="flex min-h-full w-full flex-col justify-center">
       <div className="space-y-4">

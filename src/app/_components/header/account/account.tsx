@@ -14,7 +14,7 @@ import {
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { AccountUnauthenticated } from './account-unauthenticated'
 import { AccountAuthenticated } from './account-authenticated'
-import { AccountVerifyEmail } from './account-verify-email'
+import { AccountUnverified } from './account-unverified'
 
 export function Account() {
   const { check, user } = useAuth()
@@ -45,7 +45,7 @@ export function Account() {
             {user?.email_verified_at ? (
               <AccountAuthenticated />
             ) : (
-              <AccountVerifyEmail />
+              <AccountUnverified />
             )}
           </>
         ) : (
