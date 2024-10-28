@@ -3,8 +3,8 @@ import { cookies } from 'next/headers'
 import { api } from '@/lib/http'
 import { url } from '@/lib/utils'
 
-function confirmFetch(path: string, request: NextRequest) {
-  const cookieStore = cookies()
+async function confirmFetch(path: string, request: NextRequest) {
+  const cookieStore = await cookies()
   const { searchParams } = new URL(request.url)
 
   const expires = searchParams.get('expires')
